@@ -5,12 +5,13 @@ HOST: http://www.google.com
 ## Správa uživatelů
 Metody slouží pro administraci uživatelů a pro další úlohy oprávněným uživatelům a systémům.
 
-# User [/json/user-load.php]
+# User [/json/user-load.php?id=1]
 + Model (application/json)
   
     + Body
 
             {
+                "id":"1",
                 "openid":"novak",
                 "jmeno":"Jan",
                 "prijmeni":"Novák",
@@ -23,6 +24,9 @@ Metody slouží pro administraci uživatelů a pro další úlohy oprávněným 
             {
                 "type":"object",
                 "properties":{
+                "id": {
+                    "type":"string",
+                },
                 "openid": {
                     "type":"string",
                     "description": "neměnný OpenID identifikátor, tvoří se z prvního uživatele",
@@ -49,8 +53,12 @@ Metody slouží pro administraci uživatelů a pro další úlohy oprávněným 
                 }
             }
 
+### Retrieve metoda oiuser-load [GET]
+Vrací jeden záznam ze seznamu uživatelů ve struktuře user. Oprávněný uživatel má přístup ke generované přihlášce člena na url /reg/reg-ID.pdf
 
-## oiuser-load [GET]
++ Parameters
+    + id (required, number, `1001`) ... Id uživatele.
+
 + Response 200
 
     [User][]
