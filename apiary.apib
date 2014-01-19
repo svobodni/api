@@ -5,8 +5,59 @@ HOST: http://www.google.com
 ## Správa uživatelů
 Metody slouží pro administraci uživatelů a pro další úlohy oprávněným uživatelům a systémům.
 
+# User [/json/user-load.php]
++ Model (application/json)
+  
+    + Body
+
+            {
+                "openid":"novak",
+                "jmeno":"Jan",
+                "prijmeni":"Novák",
+                "titul1":"Ing.",
+                "titul2":"CSc.",
+                "email":"novak@somemail.com"
+            }
+    + Schema
+    
+            {
+                "type":"object",
+                "properties":{
+                "openid": {
+                    "type":"string",
+                    "description": "neměnný OpenID identifikátor, tvoří se z prvního uživatele",
+                },
+                "jmeno": {
+                    "type":"string",
+                    "description": "křestní jméno"
+                },
+                "prijmeni": {
+                    "type":"string",
+                    "description": "příjmení"
+                },
+                "titul1": {
+                    "type":"string",
+                    "description": "titul(y) před jménem"
+                },
+                "titul2": {
+                    "type":"string",
+                    "description": "titul(y) za jménem"
+                },
+                "email": {
+                    "type":"string",
+                    "description":"e-mail"
+                }
+            }
+
+
+## oiuser-load [GET]
++ Response 200
+
+    [User][]
+
 # Profile [/json/profile-load.php]
 Editace vlastního profilu
+
 V případě profilu se nepoužívá ID, je dané identitou přihlášeného uživatele.
 
 ### Retrieve profile [GET]
