@@ -1,0 +1,140 @@
+{
+  "description": "The platform API empowers developers to automate, extend and combine Heroku with other services.",
+  "definitions": {
+    "profile": {
+      "description": "Profil reprezentuje právě přihlášeného uživatele.",
+      "id": "schema/profile",
+      "$schema": "http://json-schema.org/draft-04/hyper-schema",
+      "title": "Svobodni API - Profile",
+      "type": [
+        "object"
+      ],
+      "links": [
+        {
+          "description": "Info for account.",
+          "href": "/json/profile-load.php",
+          "method": "GET",
+          "rel": "self",
+          "title": "Info"
+        }
+      ],
+      "properties": {
+        "openid": {
+          "$ref": "#/definitions/user/definitions/openid"
+        },
+        "jmeno": {
+          "$ref": "#/definitions/user/definitions/jmeno"
+        },
+        "prijmeni": {
+          "$ref": "#/definitions/user/definitions/prijmeni"
+        },
+        "titul1": {
+          "$ref": "#/definitions/user/definitions/titul1"
+        },
+        "titul2": {
+          "$ref": "#/definitions/user/definitions/titul2"
+        },
+        "email": {
+          "$ref": "#/definitions/user/definitions/email"
+        }
+      }
+    },
+    "user": {
+      "description": "Entita User zastupuje člena nebo příznivce.",
+      "id": "schema/user",
+      "$schema": "http://json-schema.org/draft-04/hyper-schema",
+      "title": "Svobodni API - User",
+      "type": [
+        "object"
+      ],
+      "definitions": {
+        "openid": {
+          "description": "neměnný OpenID identifikátor, tvoří se z prvního uživatele",
+          "example": "1212",
+          "readOnly": true,
+          "type": [
+            "string"
+          ]
+        },
+        "jmeno": {
+          "description": "křestní jméno",
+          "example": "Jiří",
+          "type": [
+            "string"
+          ]
+        },
+        "prijmeni": {
+          "description": "příjmení",
+          "example": "Kubíček",
+          "type": [
+            "string"
+          ]
+        },
+        "titul1": {
+          "description": "titul(y) před jménem",
+          "example": "Ing.",
+          "type": [
+            "string"
+          ]
+        },
+        "titul2": {
+          "description": "titul(y) za jménem",
+          "example": "",
+          "type": [
+            "string"
+          ]
+        },        
+        "email": {
+          "description": "e-mail",
+          "example": "kubicek@svobodni.cz",
+          "format": "email",
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "links": [
+        {
+          "description": "Informace o existujícím uživateli.",
+          "href": "/json/user-load.php?id={(%23%2Fdefinitions%2Fuser%2Fdefinitions%2Fopenid)}",
+          "method": "GET",
+          "rel": "self",
+          "title": "Info"
+        }
+      ],
+      "properties": {
+        "openid": {
+          "$ref": "#/definitions/user/definitions/openid"
+        },
+        "jmeno": {
+          "$ref": "#/definitions/user/definitions/jmeno"
+        },
+        "prijmeni": {
+          "$ref": "#/definitions/user/definitions/prijmeni"
+        },
+        "titul1": {
+          "$ref": "#/definitions/user/definitions/titul1"
+        },
+        "titul2": {
+          "$ref": "#/definitions/user/definitions/titul2"
+        },
+        "email": {
+          "$ref": "#/definitions/user/definitions/email"
+        }
+      }    
+    }
+  },
+  "properties": {
+    "account": {
+      "$ref": "/definitions/account"
+    },
+    "user": {
+      "$ref": "/definitions/user"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-04/hyper-schema",
+  "title": "Svobodni API",
+  "type": [
+    "object"
+  ]
+}
