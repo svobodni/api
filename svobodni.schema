@@ -11,7 +11,7 @@
       ],
       "links": [
         {
-          "description": "Info for account.",
+          "description": "Informace o právě přihlášeném uživateli.",
           "href": "/json/profile-load.php",
           "method": "GET",
           "rel": "self",

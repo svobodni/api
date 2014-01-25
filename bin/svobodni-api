@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'heroics'
+
+username = 'kubicek'
+token = 'tokentoken'
+url = "http://#{username}:#{token}@svobodni.apiary.io/svobodni.schema"
+options = {
+  default_headers: {'Accept' => 'application/vnd.svobodni+json; version=1'},
+  cache: Moneta.new(:File, dir: "#{Dir.home}/.heroics/svobodni-api")}
+
+# zatim cteme schema lokalne
+schema = Heroics::Schema.new(MultiJson.decode(File.open("svobodni.schema").read))
+cli = Heroics::cli_from_schema('svobodni-api', STDOUT, schema, url, options)
+
+# az bude schema na serveru
+#cli = Heroics.cli_from_schema_url('svobodni-api', STDOUT, url, options)
+
+cli.run(*ARGV)
