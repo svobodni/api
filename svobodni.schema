@@ -1,41 +1,73 @@
 {
   "description": "The platform API empowers developers to automate, extend and combine Heroku with other services.",
   "definitions": {
-    "profile": {
-      "description": "Profil reprezentuje právě přihlášeného uživatele.",
+    "organization": {
+      "description": "Organizace reprezentuje vnitřní organizaci Svobodných (kraj, pobočku).",
       "id": "schema/profile",
       "$schema": "http://json-schema.org/draft-04/hyper-schema",
       "title": "Svobodni API - Profile",
       "type": [
         "object"
       ],
+      "definitions": {
+        "id": {
+          "description": "neměnný identifikátor",
+          "example": "1212",
+          "readOnly": true,
+          "type": [
+            "string"
+          ]
+        },
+        "parent": {
+          "description": "nadřazená organizace",
+          "example": "1",
+          "type": [
+            "string"
+          ]
+        },
+        "type": {
+          "description": "typ organizace",
+          "example": "1",
+          "type": [
+            "string"
+          ]
+        },
+        "name": {
+          "description": "název organizace",
+          "example": "Praha",
+          "type": [
+            "string"
+          ]
+        }
+      },
       "links": [
         {
-          "description": "Informace o právě přihlášeném uživateli.",
-          "href": "/json/profile-load.php",
+          "description": "Informace o konkrétní organizaci.",
+          "href": "/api/organizace/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fid)}",
           "method": "GET",
           "rel": "self",
           "title": "Info"
+        },
+        {
+          "description": "Seznam organizací.",
+          "href": "/api/organizace",
+          "method": "GET",
+          "rel": "instances",
+          "title": "List"
         }
       ],
       "properties": {
-        "openid": {
-          "$ref": "#/definitions/user/definitions/openid"
+        "id": {
+          "$ref": "#/definitions/organization/definitions/id"
         },
-        "jmeno": {
-          "$ref": "#/definitions/user/definitions/jmeno"
+        "nadrazena": {
+          "$ref": "#/definitions/organization/definitions/parent"
         },
-        "prijmeni": {
-          "$ref": "#/definitions/user/definitions/prijmeni"
+        "druh": {
+          "$ref": "#/definitions/organization/definitions/type"
         },
-        "titul1": {
-          "$ref": "#/definitions/user/definitions/titul1"
-        },
-        "titul2": {
-          "$ref": "#/definitions/user/definitions/titul2"
-        },
-        "email": {
-          "$ref": "#/definitions/user/definitions/email"
+        "nazev": {
+          "$ref": "#/definitions/organization/definitions/name"
         }
       }
     },
@@ -48,9 +80,17 @@
         "object"
       ],
       "definitions": {
+        "id": {
+          "description": "neměnný identifikátor",
+          "example": "1212",
+          "readOnly": true,
+          "type": [
+            "string"
+          ]
+        },
         "openid": {
           "description": "neměnný OpenID identifikátor, tvoří se z prvního uživatele",
-          "example": "1212",
+          "example": "test@svobodni.cz",
           "readOnly": true,
           "type": [
             "string"
@@ -96,13 +136,23 @@
       "links": [
         {
           "description": "Informace o existujícím uživateli.",
-          "href": "/json/user-load.php?id={(%23%2Fdefinitions%2Fuser%2Fdefinitions%2Fopenid)}",
+          "href": "/api/users/{(%23%2Fdefinitions%2Fuser%2Fdefinitions%2Fid)}",
           "method": "GET",
           "rel": "self",
           "title": "Info"
+        },
+        {
+          "description": "Seznam uživatelů.",
+          "href": "/api/users",
+          "method": "GET",
+          "rel": "instances",
+          "title": "List"
         }
       ],
       "properties": {
+        "id": {
+          "$ref": "#/definitions/user/definitions/id"
+        },
         "openid": {
           "$ref": "#/definitions/user/definitions/openid"
         },
@@ -126,7 +176,7 @@
   },
   "properties": {
     "account": {
-      "$ref": "/definitions/account"
+      "$ref": "/definitions/organization"
     },
     "user": {
       "$ref": "/definitions/user"
