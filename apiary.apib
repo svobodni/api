@@ -5,56 +5,88 @@ HOST: http://www.google.com
 ## Správa uživatelů
 Metody slouží pro administraci uživatelů a pro další úlohy oprávněným uživatelům a systémům.
 
-# User [/json/user-load.php?id=1]
+## User [/api/users/{id}]
 + Model (application/json)
   
     + Body
 
             {
-                "id":"1",
-                "openid":"novak",
-                "jmeno":"Jan",
-                "prijmeni":"Novák",
+                "id":"999",
+                "openid":"lampa@svobodni.cz",
                 "titul1":"Ing.",
-                "titul2":"CSc.",
-                "email":"novak@somemail.com"
-            }
-    + Schema
-    
-            {
-                "type":"object",
-                "properties":{
-                "id": {
-                    "type":"string",
+                "titul2":null,
+                "jmeno":"Jan",
+                "prijmeni":"Lampa",
+                "email":"lampa@svobodni.cz",
+                "vs":"10999",
+                "narozeni":"1970-02-18 00:00:00",
+                "rodnecislo":"700218\/1234",
+                "povolani":null,
+                "poznamka":null,
+                "adresatxt":"",
+                "kontaktgeneral":[
+                  {
+                    "typ":"phone",
+                    "obsah":"123456789",
+                    "status":"1"
+                  },
+                  {
+                    "typ":"homepage",
+                    "obsah":"www.lampa.cz",
+                    "status":null
+                  },
+                  {
+                    "typ":"fbProfile",
+                    "obsah":"http:\/\/www.facebook.com\/lampa",
+                    "status":null
+                  },
+                  {
+                    "typ":"fbPage",
+                    "obsah":"http:\/\/www.facebook.com\/lampa-politik",
+                    "status":null
+                  }
+                ],
+                "kontaktadresa":[
+                ],
+                "clen":{
+                  "exclen":"v \u017e\u00e1dn\u00e9",
+                  "exkand":null,
+                  "status":"100",
+                  "zacatek":"1357772400",
+                  "konec":null
                 },
-                "openid": {
-                    "type":"string",
-                    "description": "neměnný OpenID identifikátor, tvoří se z prvního uživatele",
-                },
-                "jmeno": {
-                    "type":"string",
-                    "description": "křestní jméno"
-                },
-                "prijmeni": {
-                    "type":"string",
-                    "description": "příjmení"
-                },
-                "titul1": {
-                    "type":"string",
-                    "description": "titul(y) před jménem"
-                },
-                "titul2": {
-                    "type":"string",
-                    "description": "titul(y) za jménem"
-                },
-                "email": {
-                    "type":"string",
-                    "description":"e-mail"
-                }
+                "priznivec":null,
+                "clenstvi":[
+                  {
+                    "druh":"1",
+                    "organizace":"5",
+                    "adresa":{
+                      "mistni":null,
+                      "ulice":"Stromovka 126",
+                      "mesto":"Praha 7",
+                      "psc":"17000",
+                      "stat":"\u010cesk\u00e1 republika",
+                      "geolat":null,
+                      "geolong":null
+                    }
+                  }
+                ],
+                "prispevek":[
+                ],
+                "mandat":[
+                ],
+                "funkcionar":[
+                  {
+                    "vznik":"1345672800",
+                    "zanik":"1408744800",
+                    "organ":"2",
+                    "funkce":"1"
+                  }
+                ]
             }
 
-### Retrieve metoda oiuser-load [GET]
-Vrací jeden záznam ze seznamu uživatelů ve struktuře user. Oprávněný uživatel má přístup ke generované přihlášce člena na url /reg/reg-ID.pdf
+### Detail uživatele [GET]
+Vrací jeden záznam ze seznamu uživatelů ve struktuře user. 
 
 + Parameters
     + id (required, number, `1001`) ... Id uživatele.
@@ -63,20 +95,8 @@ Vrací jeden záznam ze seznamu uživatelů ve struktuře user. Oprávněný už
 
     [User][]
 
-# Profile [/json/profile-load.php]
-Editace vlastního profilu
 
-V případě profilu se nepoužívá ID, je dané identitou přihlášeného uživatele.
-
-### Retrieve profile [GET]
-+ Response 200 (application/json)
-
-    + Body
-
-            {"id":"455","titul1":"Ing.","titul2":null,"jmeno":"Ji\u0159\u00ed","prijmeni":"Kub\u00ed\u010dek"}
-
-
-# Organizace [/api/organizace]
+## Organizace [/api/organizace]
 Organizační jednotky (kraje, pobočky)
 
 ### Seznam organizací [GET]
