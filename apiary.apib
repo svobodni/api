@@ -74,3 +74,15 @@ V případě profilu se nepoužívá ID, je dané identitou přihlášeného už
     + Body
 
             {"id":"455","titul1":"Ing.","titul2":null,"jmeno":"Ji\u0159\u00ed","prijmeni":"Kub\u00ed\u010dek"}
+
+
+# Organizace [/api/organizace]
+Organizační jednotky (kraje, pobočky)
+
+### Seznam organizací [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            [{"id":"4","nadrazena":null,"druh":null,"nazev":"Zlínský kraj","oldkraj":"14"}, {"id":"5","nadrazena":null,"druh":null,"nazev":"Praha","oldkraj":"10"}]
+
