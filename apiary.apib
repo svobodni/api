@@ -96,6 +96,26 @@ Vrací jeden záznam ze seznamu uživatelů ve struktuře user.
     [User][]
 
 
+## Organizace [/api/organizace/{id}]
+Reprezentuje vnitřní organizaci Svobodných (kraj, pobočku)
+
++ Model (application/json)
+  
+    + Body
+
+            {"id":"5","nadrazena":null,"druh":null,"nazev":"Praha","oldkraj":"10"}
+
+### Detail organizace [GET]
+Vrací jeden záznam ze seznamu uživatelů ve struktuře user. 
+
++ Parameters
+    + id (required, number, `1001`) ... Id organizace.
+
++ Response 200
+
+    [Organizace][]
+
+
 ## Organizace [/api/organizace]
 Organizační jednotky (kraje, pobočky)
 
