@@ -1,11 +1,11 @@
 {
   "description": "The platform API empowers developers to automate, extend and combine Heroku with other services.",
   "definitions": {
-    "organization": {
-      "description": "Organizace reprezentuje vnitřní organizaci Svobodných (kraj, pobočku).",
+    "body": {
+      "description": "Body reprezentuje orgán strany (ReP, ReV, KrP, koordinátor, RK, VK, KK, kancelář)",
       "id": "schema/profile",
       "$schema": "http://json-schema.org/draft-04/hyper-schema",
-      "title": "Svobodni API - Profile",
+      "title": "Svobodni API - Body",
       "type": [
         "object"
       ],
@@ -18,23 +18,131 @@
             "string"
           ]
         },
-        "parent": {
+        "nadrazena": {
+          "description": "ID nadřazeného orgánu",
+          "example": "1",
+          "type": [
+            "string"
+          ]
+        },
+        "druh": {
+          "description": "typ organizace",
+          "example": "1",
+          "description":"1 = ReP, 2 = ReV, 3 = KrP, 4 = koordinátor pobočky, 11 = RK, 12 = KK, 13 = VK, 21 = tiskový mluvčí, 22 = kancelář",
+          "enum": [ "1", "2", "3", "4", "11", "12", "13", "21", "22" ]
+        },
+        "nazev": {
+          "description": "Název organizační složky strany",
+          "example": "KrP Praha",
+          "type": [
+            "string"
+          ]
+        },
+        "organizace": {
+          "description": "Organizace, které orgán přísluší",
+          "example": "5",
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "links": [
+        {
+          "description": "Informace o konkrétním orgánu.",
+          "href": "/api/bodies/{(%23%2Fdefinitions%2Fbodies%2Fdefinitions%2Fid)}",
+          "method": "GET",
+          "rel": "self",
+          "title": "Info"
+        },
+        {
+          "description": "Seznam orgánů.",
+          "href": "/api/bodies",
+          "method": "GET",
+          "rel": "instances",
+          "title": "List"
+        },
+        {
+          "description": "Registrace nového orgánu.",
+          "href": "/api/bodies",
+          "method": "POST",
+          "rel": "create",
+          "title": "Create",
+          "schema": {
+            "properties": {
+              "nadrazena": { "$ref": "#/definitions/body/definitions/nadrazena" },
+              "druh": { "$ref": "#/definitions/body/definitions/druh" },
+              "nazev": { "$ref": "#/definitions/body/definitions/nazev" },
+              "organizace": { "$ref": "#/definitions/body/definitions/organizace" }
+            }
+          }
+        },
+        {
+          "description": "Aktualizace údajů orgánu.",
+          "href": "/api/bodies/{(%23%2Fdefinitions%2Fbody%2Fdefinitions%2Fid)}",
+          "method": "PUT",
+          "rel": "update",
+          "title": "Update",
+          "schema": {
+            "properties": {
+              "nadrazena": { "$ref": "#/definitions/body/definitions/nadrazena" },
+              "druh": { "$ref": "#/definitions/body/definitions/druh" },
+              "nazev": { "$ref": "#/definitions/body/definitions/nazev" },
+              "organizace": { "$ref": "#/definitions/body/definitions/organizace" }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/body/definitions/id"
+        },
+        "nadrazena": {
+          "$ref": "#/definitions/body/definitions/nadrazena"
+        },
+        "druh": {
+          "$ref": "#/definitions/body/definitions/druh"
+        },
+        "nazev": {
+          "$ref": "#/definitions/body/definitions/nazev"
+        },
+        "organizace": {
+          "$ref": "#/definitions/body/definitions/organizace"
+        }
+      }
+    },
+    "organization": {
+      "description": "Organizace reprezentuje vnitřní organizaci Svobodných (kraj, pobočku).",
+      "id": "schema/profile",
+      "$schema": "http://json-schema.org/draft-04/hyper-schema",
+      "title": "Svobodni API - Organization",
+      "type": [
+        "object"
+      ],
+      "definitions": {
+        "id": {
+          "description": "neměnný identifikátor",
+          "example": "1212",
+          "readOnly": true,
+          "type": [
+            "string"
+          ]
+        },
+        "nadrazena": {
           "description": "nadřazená organizace",
           "example": "1",
           "type": [
             "string"
           ]
         },
-        "type": {
+        "druh": {
           "description": "typ organizace",
           "example": "1",
-          "type": [
-            "string"
-          ]
+          "description":"1 = krajské sdružení, 2 = pobočka",
+          "enum": [ "1", "2" ]
         },
-        "name": {
-          "description": "název organizace",
-          "example": "Praha",
+        "nazev": {
+          "description": "Název organizační složky strany",
+          "example": "Krajské sdružení Praha",
           "type": [
             "string"
           ]
@@ -43,17 +151,45 @@
       "links": [
         {
           "description": "Informace o konkrétní organizaci.",
-          "href": "/api/organizace/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fid)}",
+          "href": "/api/orgs/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fid)}",
           "method": "GET",
           "rel": "self",
           "title": "Info"
         },
         {
           "description": "Seznam organizací.",
-          "href": "/api/organizace",
+          "href": "/api/orgs",
           "method": "GET",
           "rel": "instances",
           "title": "List"
+        },
+        {
+          "description": "Registrace nové organizační složky.",
+          "href": "/api/orgs",
+          "method": "POST",
+          "rel": "create",
+          "title": "Create",
+          "schema": {
+            "properties": {
+              "nadrazena": { "$ref": "#/definitions/organization/definitions/nadrazena" },
+              "druh": { "$ref": "#/definitions/organization/definitions/druh" },
+              "nazev": { "$ref": "#/definitions/organization/definitions/nazev" }
+            }
+          }
+        },
+        {
+          "description": "Aktualizace údajů organizační složky.",
+          "href": "/api/orgs/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fid)}",
+          "method": "PUT",
+          "rel": "update",
+          "title": "Update",
+          "schema": {
+            "properties": {
+              "nadrazena": { "$ref": "#/definitions/organization/definitions/nadrazena" },
+              "druh": { "$ref": "#/definitions/organization/definitions/druh" },
+              "nazev": { "$ref": "#/definitions/organization/definitions/nazev" }
+            }
+          }
         }
       ],
       "properties": {
@@ -81,7 +217,7 @@
       ],
       "definitions": {
         "id": {
-          "description": "neměnný identifikátor",
+          "description": "ID záznamu",
           "example": "1212",
           "readOnly": true,
           "type": [
@@ -89,30 +225,30 @@
           ]
         },
         "openid": {
-          "description": "neměnný OpenID identifikátor, tvoří se z prvního uživatele",
+          "description": "Přihlašovací jméno uživatele",
           "example": "test@svobodni.cz",
           "readOnly": true,
           "type": [
             "string"
           ]
         },
+        "titul1": {
+          "description": "Titul(y) před jménem",
+          "example": "Ing.",
+          "type": [
+            "string"
+          ]
+        },
         "jmeno": {
-          "description": "křestní jméno",
+          "description": "Křestní jméno",
           "example": "Jiří",
           "type": [
             "string"
           ]
         },
         "prijmeni": {
-          "description": "příjmení",
+          "description": "Příjmení",
           "example": "Kubíček",
-          "type": [
-            "string"
-          ]
-        },
-        "titul1": {
-          "description": "titul(y) před jménem",
-          "example": "Ing.",
           "type": [
             "string"
           ]
@@ -127,10 +263,173 @@
         "email": {
           "description": "e-mail",
           "example": "kubicek@svobodni.cz",
-          "format": "email",
+          "format": "Primární e-mail (registrační/verifikační)",
           "type": [
             "string"
           ]
+        },
+        "vs": {
+          "description":"Variabilní symbol (pro úhrady)",
+          "type":"string"
+        },
+        "narozeni": {
+          "description":"Datum narození",
+          "type":"string"
+        },
+        "rodnecislo": {
+          "description":"Rodné číslo (jen u členů, není u mnoha zakládajících)",
+          "type":"string"
+        },
+        "povolani": {
+          "description":"Informace o povolání",
+          "type":"string"
+        },
+        "poznamka": {
+          "description":"Poznámka",
+          "type":"string"
+        },
+        "kontaktgeneral": {
+          "type":"array",
+          "items":{
+            "type":"object",
+            "properties":{
+              "typ": {
+                "description":"Typ kontaktu (phone, homepage, fbProfile, fbPage)",
+                "type":"string"
+              },
+              "obsah": {
+                "description":"Obsah kontaktu (telefonní číslo, URL stránky",
+                "type":"string"
+              },
+              "status": {
+                "description":"Je kontakt veřejný?",
+                "type":"string"
+              }
+            }
+          }
+        },
+        "kontaktadresa": {
+          "type":"object",
+          "properties":{
+            "mistni": {
+              "description":"Místní část adresy",
+              "example":"budova B2",
+              "type":"string"
+            },
+            "ulice": {
+              "description":"Ulice včetně čp/čo/če",
+              "type":"string"
+            },
+            "mesto": {
+              "description":"Město či obec",
+              "type":"string"
+            },
+            "psc": {
+              "description":"Poštovní směrovací číslo",
+              "type":"string"
+            },
+            "stat": {
+              "description":"Název státu",
+              "type":"string"
+            },
+            "geolat": {
+              "description":"Zeměpisná šířka adresy",
+              "type":"string"
+            },
+            "geolong": {
+              "description":"Zeměpisná délka adresy",
+              "type":"string"
+            }
+          }
+        },
+                "clen": {
+          "type":"object",
+          "properties":{
+            "exclen": {
+              "description":"Text z přihlášky o dřívějších členstvích",
+              "type":"string"
+            },
+            "exkand": {
+              "description":"Text z přihlášky o dřívějších kandidaturách",
+              "type":"string"
+            },
+            "status": {
+              "description":"0 = jen zaregistrovaný, 10 = potvrzený e-mail, 30 = přijata přihláška, 70 = schválen, 100 = plnoprávný člen",
+              "enum": [ "0", "10", "30", "70", "100" ]
+            },
+            "zacatek": {
+              "description": "Začátek členství (datum/čas)",
+              "type":"string"
+            },
+            "konec": {
+              "description":"Plánovaný konec členství (datum/čas) - tj. doba do vypršení členského příspěvku či datum/čas rezignace podle oznámení člena",
+              "type":"string"
+            }
+          }
+                },
+        "priznivec": {
+          "type":"object",
+          "properties":{
+            "status": {
+              "description":"0 = jen zaregistrovaný, 10 = potvrzený e-mail, 100 = plnoprávný příznivec",
+              "enum": [ "0", "10", "30", "70", "100" ]
+            },
+            "zacatek": {
+              "description": "Začátek příznivectví (datum/čas)",
+              "type":"string"
+            },
+            "konec": {
+              "description":"Plánovaný konec členství (datum/čas) - tj. doba do vypršení přízniveckého příspěvku či datum/čas rezignace podle oznámení příznivce",
+              "type":"string"
+            }
+          }
+        },
+        "clenstvi": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties":{
+              "druh": {
+                "description":"1 = členství, 2 = hostování",
+                "enum": [ "1", "2" ]
+              },
+              "organizace": {
+                "description":"Organizace příslušnosti (krajské sdružení, pobočka)",
+                "type":"string"
+              },
+              "adresa": {
+                "$ref": "/definitions/adresa"
+              }
+            }
+          }
+        },
+        "mandat": {
+          "type":"array"
+        },
+        "funkcionar": {
+          "type":"array",
+          "items":
+          {
+            "type":"object",
+            "properties":{
+              "vznik": {
+                "description":"Vznik mandátu",
+                "type":"string"
+              },
+              "zanik": {
+                "description":"Platnost mandátu (obvykle se nastavuje 2-leté období)",
+                "type":"string"
+              },
+              "organ": {
+                "description":"Orgán, ve kterém mandát je",
+                "type":"string"
+              },
+              "funkce": {
+                "description":"1 = předseda, 2 = místopředseda, 3 = pověřenec (např. koordinátor)",
+                "enum": [ "1", "2", "3" ]
+              }
+            }
+          }
         }
       },
       "links": [
@@ -150,32 +449,33 @@
         }
       ],
       "properties": {
-        "id": {
-          "$ref": "#/definitions/user/definitions/id"
-        },
-        "openid": {
-          "$ref": "#/definitions/user/definitions/openid"
-        },
-        "jmeno": {
-          "$ref": "#/definitions/user/definitions/jmeno"
-        },
-        "prijmeni": {
-          "$ref": "#/definitions/user/definitions/prijmeni"
-        },
-        "titul1": {
-          "$ref": "#/definitions/user/definitions/titul1"
-        },
-        "titul2": {
-          "$ref": "#/definitions/user/definitions/titul2"
-        },
-        "email": {
-          "$ref": "#/definitions/user/definitions/email"
-        }
+        "id":            { "$ref": "#/definitions/user/definitions/id" },
+        "openid":        { "$ref": "#/definitions/user/definitions/openid" },
+        "titul1":        { "$ref": "#/definitions/user/definitions/titul1" },
+        "jmeno":         { "$ref": "#/definitions/user/definitions/jmeno" },
+        "prijmeni":      { "$ref": "#/definitions/user/definitions/prijmeni" },
+        "titul2":        { "$ref": "#/definitions/user/definitions/titul2" },
+        "email":         { "$ref": "#/definitions/user/definitions/email" },
+        "vs":            { "$ref": "#/definitions/user/definitions/vs" },
+        "narozeni":      { "$ref": "#/definitions/user/definitions/narozeni" },
+        "rodnecislo":    { "$ref": "#/definitions/user/definitions/rodnecislo" },
+        "povolani":      { "$ref": "#/definitions/user/definitions/povolani" },
+        "poznamka":      { "$ref": "#/definitions/user/definitions/poznamka" },
+        "kontaktgeneral": { "$ref": "#/definitions/user/definitions/kontaktgeneral" },
+        "kontaktadresa": { "$ref": "#/definitions/user/definitions/kontaktadresa" },
+        "clen":          { "$ref": "#/definitions/user/definitions/clen" },
+        "priznivec":     { "$ref": "#/definitions/user/definitions/priznivec" },
+        "clenstvi":      { "$ref": "#/definitions/user/definitions/clenstvi" },
+        "mandat":        { "$ref": "#/definitions/user/definitions/mandat" },
+        "funkcionar":    { "$ref": "#/definitions/user/definitions/funkcionar" }
       }    
     }
   },
   "properties": {
-    "account": {
+    "body": {
+      "$ref": "/definitions/body"
+    },
+    "organization": {
       "$ref": "/definitions/organization"
     },
     "user": {
