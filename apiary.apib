@@ -2,7 +2,7 @@ FORMAT: 1A
 HOST: http://www.google.com
 
 # svobodni
-## Správa uživatelů
+# Správa uživatelů
 Metody slouží pro administraci uživatelů a pro další úlohy oprávněným uživatelům a systémům.
 
 ## User [/api/users/{id}]
@@ -95,6 +95,59 @@ Vrací jeden záznam ze seznamu uživatelů ve struktuře user.
 
     [User][]
 
+## Organy [/api/bodies]
+Orgán reprezentuje orgán strany (ReP, ReV, KrP, koordinátor, RK, VK, KK, kancelář)
+
+### Seznam orgánů strany [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            [
+              {
+                "id":"1",
+                "nazev":"Republikové předsednictvo",
+                "druh":"1",
+                "skupinovy":"2",
+                "nadrazeny":null,
+                "organizace":"16"
+              },
+              {
+                "id":"2",
+                "nazev":"KrP Praha",
+                "druh":"3",
+                "skupinovy":"2",
+                "nadrazeny":null,
+                "organizace":"5"
+              }
+            ]
+
+## Organy [/api/bodies/{id}]
+### Detail orgánu strany [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "id":"2",
+              "nazev":"KrP Praha",
+              "druh":"3",
+              "skupinovy":"2",
+              "nadrazeny":null,
+              "organizace":"5"
+            }
+
+
+## Organizace [/api/orgs]
+Organizace reprezentuje vnitřní organizaci Svobodných (kraj, pobočku)
+
+### Seznam organizací [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            [{"id":"4","nadrazena":null,"druh":null,"nazev":"Zlínský kraj","oldkraj":"14"}, {"id":"5","nadrazena":null,"druh":null,"nazev":"Praha","oldkraj":"10"}]
+
 
 ## Organizace [/api/organizace/{id}]
 Reprezentuje vnitřní organizaci Svobodných (kraj, pobočku)
@@ -114,15 +167,3 @@ Vrací jeden záznam ze seznamu uživatelů ve struktuře user.
 + Response 200
 
     [Organizace][]
-
-
-## Organizace [/api/organizace]
-Organizační jednotky (kraje, pobočky)
-
-### Seznam organizací [GET]
-+ Response 200 (application/json)
-
-    + Body
-
-            [{"id":"4","nadrazena":null,"druh":null,"nazev":"Zlínský kraj","oldkraj":"14"}, {"id":"5","nadrazena":null,"druh":null,"nazev":"Praha","oldkraj":"10"}]
-
