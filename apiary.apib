@@ -148,6 +148,19 @@ Organizace reprezentuje vnitřní organizaci Svobodných (kraj, pobočku)
 
             [{"id":"4","nadrazena":null,"druh":null,"nazev":"Zlínský kraj","oldkraj":"14"}, {"id":"5","nadrazena":null,"druh":null,"nazev":"Praha","oldkraj":"10"}]
 
+### Založení organizace [POST]
+Vytvoří jeden záznam v seznamu organizací.
+
++ Request
+
+            {
+              "nazev":"Praha 4",
+              "druh":"2",
+              "nadrazeny":"5"
+            }
+
++ Response 200
+
 
 ## Organizace [/api/organizace/{id}]
 Reprezentuje vnitřní organizaci Svobodných (kraj, pobočku)
@@ -167,11 +180,3 @@ Vrací jeden záznam ze seznamu uživatelů ve struktuře user.
 + Response 200
 
     [Organizace][]
-
-### Založení organizace [POST]
-Vytvoří jeden záznam v seznamu organizací.
-
-+ Request
-    [Organizace][]
-
-+ Response 200
