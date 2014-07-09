@@ -1,8 +1,101 @@
 FORMAT: 1A
-HOST: http://www.google.com
+HOST: https://registr.svobodni.cz
 
 # svobodni
-# Správa uživatelů
+
+# Group Autorizace
+Metody slouží pro ověření uživatele a práci s autentikačním tokenem. Autentikační token je ve formátu JWT a je vydáván přihlášeným uživatelům.
+
+Zatím služba vydává univerzální token s platností 1 hodinu, který obsahuje ID uživatele. U registrovaných systémů navíc do tokenu přidává informaci, že token je vystaven pro ně.
+
+__Průběh ověřování:__
+
+1. Uživatel jde na stránku cílového systému (např. wiki, fórum, volební systém)
+* Uživatel je přesměrován na adresu /auth/token?redirect_uri
+* Po ověření uživatele jménem a heslem (TODO: fb, twitter, google) a případně ověření vůle vydat token (např. pro volební systém) je uživatel přesměrován na _redirect\_uri_ a je předán token
+* Systém může ověřit podpis v tokenu
+* Systém může pomocí tokenu získat profil uživatele z registru
+* Registrovaný systém může v tokenu ověřit, že je skutečně pro něj
+* Se základním tokenem lze volat jménem uživatele služby registru
+
+## Token [/auth/token.json]
+### Získání autentikačního tokenu přihlášeným uživatelem [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3JlZ2lzdHIuc3ZvYm9kbmkuY3oiLCJzdWIiOiJkYnwzNDIiLCJuYmYiOjE0MDQ4NjU3NTksImV4cCI6MTQwNDg2OTM1OSwiaWF0IjoxNDA0ODY1NzU5LCJqdGkiOiI4NDc5ZTc5My1jNGM4LTRkYTAtODc5YS0xODcxNDc1YmVjMTUiLCJ0eXAiOiJodHRwczovL3JlZ2lzdHIuc3ZvYm9kbmkuY3ovYXV0aCJ9.Np9Pt0GvfLdvi7yB7JMCOIZGlZiBi8UWagojZcXB-9CZQI5DCztq_eLP06qQTbTdkN6wyIGjzmAVwTT_WqnsMA
+
+## Token [/auth/token(?redirect_uri)]
+### Odeslání autorizačního tokenu do externí služby [GET]
++ Parameters
+    + redirect\_uri (required, string) ... URL, na kterou má být uživatel přesměrován. K URL bude přidán parametr _jwt_, ve kterém bude předán token.
+
++ Response 301 (application/json)
+
+    + Body
+
+            eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3JlZ2lzdHIuc3ZvYm9kbmkuY3oiLCJzdWIiOiJkYnwzNDIiLCJuYmYiOjE0MDQ4NjU3NTksImV4cCI6MTQwNDg2OTM1OSwiaWF0IjoxNDA0ODY1NzU5LCJqdGkiOiI4NDc5ZTc5My1jNGM4LTRkYTAtODc5YS0xODcxNDc1YmVjMTUiLCJ0eXAiOiJodHRwczovL3JlZ2lzdHIuc3ZvYm9kbmkuY3ovYXV0aCJ9.Np9Pt0GvfLdvi7yB7JMCOIZGlZiBi8UWagojZcXB-9CZQI5DCztq_eLP06qQTbTdkN6wyIGjzmAVwTT_WqnsMA
+
+## Public key [/auth/public_key]
+### Získání veřejného klíče, kterým lze ověřit podpis v tokenu [GET]
++ Response 200 (text/html; charset=utf-8)
+
+    + Body
+
+            -----BEGIN PUBLIC KEY-----
+            MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALsl3zoyj4QoyIzxEOZ/o/xQ3nuJRBJd
+            hMNC+5LXdlhKbfp42/px6xQk0G86+vQasoiJ51l/2IAzOA5FEFf1MVsCAwEAAQ==
+            -----END PUBLIC KEY-----
+
+## Profile [/auth/profile]
+### Získání profilu držitele tokenu [GET]
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3JlZ2lzdHIuc3ZvYm9kbmkuY3oiLCJzdWIiOiJkYnwzNDIiLCJuYmYiOjE0MDQ4NjU3NTksImV4cCI6MTQwNDg2OTM1OSwiaWF0IjoxNDA0ODY1NzU5LCJqdGkiOiI4NDc5ZTc5My1jNGM4LTRkYTAtODc5YS0xODcxNDc1YmVjMTUiLCJ0eXAiOiJodHRwczovL3JlZ2lzdHIuc3ZvYm9kbmkuY3ovYXV0aCJ9.Np9Pt0GvfLdvi7yB7JMCOIZGlZiBi8UWagojZcXB-9CZQI5DCztq_eLP06qQTbTdkN6wyIGjzmAVwTT_WqnsMA
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "person":
+                {
+                    "domestic_branch":
+                    {
+                        "name": "Zbytek Prahy 6 a Praha 7"
+                    },
+                    "domestic_region":
+                    {
+                        "name": "Praha"
+                    },
+                    "email": "kubicek@svobodni.cz",
+                    "fb\_page\_url": "http://www.facebook.com/Kubicek.CZ",
+                    "fb\_profile\_url": "http://www.facebook.com/kubicek.jiri",
+                    "first_name":   "Jiří",
+                    "homepage\_url": "http://www.kubicek.cz",
+                    "last\_name": "Kubíček",
+                    "name": "Ing. Jiří Kubíček",
+                    "phone": "234099340",
+                    "photo_url": "http://www.svobodni.cz/Controls/AvatarImageFetch.ashx?memberid=c69b1034-0e1e-42d9-9107-3d2c587cc7e5",
+                    "roles":
+                    [
+                        {
+                            "name": "President",
+                            "organization": {
+                                "id": 15,
+                                "name": "Krajské předsednictvo"
+                            }
+                        }
+                    ]
+                }
+            }
+
+# Group Správa uživatelů
+__# FIXME: Nepopisuje stávající API!__
+
 Metody slouží pro administraci uživatelů a pro další úlohy oprávněným uživatelům a systémům.
 
 ## User [/api/users/{id}]
